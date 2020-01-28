@@ -75,7 +75,7 @@
 
 	<TextView android:id="@+id/tvTotal"
 		style="@style/TextStyle.Total"
-		android:layout_width="wrap_content"
+		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:text="985000 EUR"
 		app:layout_constraintEnd_toEndOf="parent"

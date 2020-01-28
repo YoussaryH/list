@@ -33,6 +33,10 @@ class AccountDbResult : Parcelable {
             `in`.readValue(String::class.java.classLoader) as String?
     }
 
+    fun getFormat(value: Double): String {
+        return String.format("%,.2f", value)
+    }
+
     /**
      * No args constructor for use in serialization
      *
@@ -83,7 +87,7 @@ class AccountDbResult : Parcelable {
         }
     }
 
-    fun getTotal(): Double? {
-        return (amount+fee)
+    fun getTotal(): Double {
+        return (amount + fee)
     }
 }

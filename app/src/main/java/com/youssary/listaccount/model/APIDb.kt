@@ -6,7 +6,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-object AccountDb {
+object APIDb {
 
     private val okHttpClient = HttpLoggingInterceptor().run {
         level = HttpLoggingInterceptor.Level.BODY
