@@ -6,8 +6,9 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.youssary.listaccount.R
-import com.youssary.listaccount.model.ListRepository
-import com.youssary.listaccount.model.PermissionRequester
+import com.youssary.listaccount.model.repository.ListRepository
+import com.youssary.listaccount.model.permision.PermissionRequester
+import com.youssary.listaccount.ui.common.app
 import com.youssary.listaccount.ui.common.getViewModel
 import com.youssary.listaccount.ui.main.MainViewModel.UiModel
 import kotlinx.android.synthetic.main.activity_main.*
@@ -16,17 +17,22 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: MainViewModel
     private lateinit var adapter: MoviesAdapter
-    private val coarsePermissionRequester = PermissionRequester(
-        this,
-        Manifest.permission.INTERNET
-    )
+    private val coarsePermissionRequester =
+        PermissionRequester(
+            this,
+            Manifest.permission.INTERNET
+        )
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        viewModel = getViewModel { MainViewModel(ListRepository(application)) }
+        viewModel = getViewModel { MainViewModel(
+            ListRepository(
+                app
+            )
+        ) }
 
         adapter = MoviesAdapter(viewModel::onMovieClicked)
         recycler.adapter = adapter
@@ -39,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         progress.visibility = if (model is UiModel.Loading) View.VISIBLE else View.GONE
 
         when (model) {
-            is UiModel.Content -> adapter.list = model.list!!
+            is UiModel.Content -> adapter.list = model.list
 
             UiModel.RequestLocationPermission -> coarsePermissionRequester.request {
                 viewModel.onCoarsePermissionRequested()

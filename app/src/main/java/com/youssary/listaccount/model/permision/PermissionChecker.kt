@@ -1,4 +1,4 @@
-package com.youssary.listaccount.model
+package com.youssary.listaccount.model.permision
 
 import android.app.Activity
 import android.app.Application

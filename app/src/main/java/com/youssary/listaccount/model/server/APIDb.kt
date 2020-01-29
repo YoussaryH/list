@@ -1,4 +1,4 @@
-package com.youssary.listaccount.model
+package com.youssary.listaccount.model.server
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.OkHttpClient
@@ -20,6 +20,7 @@ object APIDb {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
         .run {
-            create<AccountDbService>(AccountDbService::class.java)
+            create<AccountDbService>(
+                AccountDbService::class.java)
         }
 }

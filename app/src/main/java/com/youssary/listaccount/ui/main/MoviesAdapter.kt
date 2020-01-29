@@ -4,7 +4,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.youssary.listaccount.R
-import com.youssary.listaccount.model.AccountDbResult
+import com.youssary.listaccount.database.ListDB
+import com.youssary.listaccount.model.server.AccountDbResult
 import com.youssary.listaccount.ui.common.basicDiffUtil
 import com.youssary.listaccount.ui.common.inflate
 import kotlinx.android.synthetic.main.adapter_list_account_content.view.*
@@ -13,7 +14,7 @@ import kotlinx.android.synthetic.main.list_main_activity.view.*
 class MoviesAdapter(private val listener: (AccountDbResult) -> Unit) :
     RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
 
-    var list: List<AccountDbResult> by basicDiffUtil(
+    var list: List<ListDB> by basicDiffUtil(
         emptyList(),
         areItemsTheSame = { old, new -> old.id == new.id }
     )
@@ -31,18 +32,18 @@ class MoviesAdapter(private val listener: (AccountDbResult) -> Unit) :
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        fun bind(dataResult: AccountDbResult) {
+        fun bind(dataResult: ListDB) {
 
             itemView.tvId.text = dataResult.id.toString()
             itemView.tvDate.text = dataResult.date
             itemView.tvAmount.text = dataResult.amount.toString()
             itemView.tvFee.text = dataResult.fee.toString()
             itemView.tvDescription.text = dataResult.description
-            itemView.tvTotal.text = dataResult.getTotal()
+            itemView.tvTotal.text = (dataResult.amount + dataResult.fee).toString()
             if (dataResult.amount >= 0) {
-                itemView.lyType.setBackgroundResource(R.color.colorRed)
-            } else {
                 itemView.lyType.setBackgroundResource(R.color.green)
+            } else {
+                itemView.lyType.setBackgroundResource(R.color.colorRed)
             }
         }
     }

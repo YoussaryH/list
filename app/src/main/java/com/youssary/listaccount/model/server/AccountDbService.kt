@@ -1,5 +1,6 @@
-package com.youssary.listaccount.model
+package com.youssary.listaccount.model.server
 
+import com.youssary.listaccount.model.server.AccountDbResult
 import retrofit2.Call
 import retrofit2.http.GET
 
