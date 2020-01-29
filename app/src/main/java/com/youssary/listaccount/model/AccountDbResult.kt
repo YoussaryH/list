@@ -6,70 +6,37 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 
-class AccountDbResult : Parcelable {
+data class AccountDbResult(
     @SerializedName("id")
     @Expose
-    var id: Int? = null
+    var id: Int? = null,
     @SerializedName("date")
     @Expose
-    var date: String? = null
+    var date: String? = null,
     @SerializedName("amount")
     @Expose
-    var amount: Double = 0.0
+    var amount: Double = 0.0,
     @SerializedName("fee")
     @Expose
-    var fee: Double = 0.0
+    var fee: Double = 0.0,
     @SerializedName("description")
     @Expose
     var description: String? = null
-
-    protected constructor(`in`: Parcel) {
-        id = `in`.readValue(Int::class.java.classLoader) as Int?
-        date = `in`.readValue(String::class.java.classLoader) as String?
-        amount =
-            `in`.readValue(Double::class.java.classLoader) as Double
-        fee = `in`.readValue(Double::class.java.classLoader) as Double
-        description =
-            `in`.readValue(String::class.java.classLoader) as String?
-    }
-
-    fun getFormat(value: Double): String {
-        return String.format("%,.2f", value)
-    }
-
-    /**
-     * No args constructor for use in serialization
-     *
-     */
-    constructor() {}
-
-    /**
-     *
-     * @param date
-     * @param amount
-     * @param fee
-     * @param description
-     * @param id
-     */
-    constructor(
-        id: Int?,
-        date: String?,
-        amount: Double,
-        fee: Double,
-        description: String?
-    ) : super() {
-        this.id = id
-        this.date = date
-        this.amount = amount
-        this.fee = fee
-        this.description = description
+) : Parcelable {
+    constructor(parcel: Parcel) : this(
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readString(),
+        parcel.readDouble(),
+        parcel.readDouble(),
+        parcel.readString()
+    ) {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeValue(id)
         parcel.writeString(date)
-        parcel.writeValue(amount)
-        parcel.writeValue(fee)
+        parcel.writeDouble(amount)
+        parcel.writeDouble(fee)
         parcel.writeString(description)
     }
 
@@ -86,8 +53,11 @@ class AccountDbResult : Parcelable {
             return arrayOfNulls(size)
         }
     }
-
-    fun getTotal(): Double {
-        return (amount + fee)
+    fun getFormat(value: Double): String {
+        return String.format("%,.2f", value)
+    }
+    fun getTotal(): String {
+        return getFormat(amount+fee)
     }
 }
+

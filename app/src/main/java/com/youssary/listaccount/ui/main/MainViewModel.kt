@@ -3,13 +3,12 @@ package com.youssary.listaccount.ui.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.youssary.listaccount.model.AccountDbResult
 import com.youssary.listaccount.model.ListRepository
 import com.youssary.listaccount.ui.common.Scope
 import kotlinx.coroutines.launch
 
-class MainViewModel(private val moviesRepository: ListRepository) : ViewModel(),
+class MainViewModel(private val mListRepository: ListRepository) : ViewModel(),
     Scope by Scope.Impl() {
 
     private val _model = MutableLiveData<UiModel>()
@@ -21,8 +20,9 @@ class MainViewModel(private val moviesRepository: ListRepository) : ViewModel(),
 
     sealed class UiModel {
         object Loading : UiModel()
-        class Content(val movies: List<AccountDbResult>) : UiModel()
+        class Content(val list: MutableList<AccountDbResult>?) : UiModel()
         class Navigation(val movie: AccountDbResult) : UiModel()
+        object RequestLocationPermission : UiModel()
     }
 
     init {
@@ -30,9 +30,13 @@ class MainViewModel(private val moviesRepository: ListRepository) : ViewModel(),
     }
 
     private fun refresh() {
+        _model.value = UiModel.RequestLocationPermission
+    }
+
+    fun onCoarsePermissionRequested() {
         launch {
             _model.value = UiModel.Loading
-            _model.value = UiModel.Content(moviesRepository.getList())
+            _model.value = UiModel.Content(mListRepository.findList())
         }
     }
 
@@ -46,9 +50,3 @@ class MainViewModel(private val moviesRepository: ListRepository) : ViewModel(),
     }
 }
 
-@Suppress("UNCHECKED_CAST")
-class MainViewModelFactory(private val moviesRepository: ListRepository) :
-    ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T =
-        MainViewModel(moviesRepository) as T
-}

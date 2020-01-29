@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.list_main_activity.view.*
 class MoviesAdapter(private val listener: (AccountDbResult) -> Unit) :
     RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
 
-    var movies: List<AccountDbResult> by basicDiffUtil(
+    var list: List<AccountDbResult> by basicDiffUtil(
         emptyList(),
         areItemsTheSame = { old, new -> old.id == new.id }
     )
@@ -23,24 +23,23 @@ class MoviesAdapter(private val listener: (AccountDbResult) -> Unit) :
         return ViewHolder(view)
     }
 
-    override fun getItemCount(): Int = movies.size
+    override fun getItemCount(): Int = list.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val movie = movies[position]
-        holder.bind(movie)
-        holder.itemView.setOnClickListener { listener(movie) }
+        val listData = list[position]
+        holder.bind(listData)
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        fun bind(account: AccountDbResult) {
+        fun bind(dataResult: AccountDbResult) {
 
-            itemView.tvId.text = account.id.toString()
-            itemView.tvDate.text = account.date
-            itemView.tvAmount.text = account.getFormat(account.amount)
-            itemView.tvFee.text = account.getFormat(account.fee)
-            itemView.tvDescription.text = account.description
-            itemView.tvTotal.text = account.getFormat(account.getTotal())
-            if (account.amount >= 0) {
+            itemView.tvId.text = dataResult.id.toString()
+            itemView.tvDate.text = dataResult.date
+            itemView.tvAmount.text = dataResult.amount.toString()
+            itemView.tvFee.text = dataResult.fee.toString()
+            itemView.tvDescription.text = dataResult.description
+            itemView.tvTotal.text = dataResult.getTotal()
+            if (dataResult.amount >= 0) {
                 itemView.lyType.setBackgroundResource(R.color.colorRed)
             } else {
                 itemView.lyType.setBackgroundResource(R.color.green)

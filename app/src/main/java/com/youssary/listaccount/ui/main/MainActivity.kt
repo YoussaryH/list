@@ -1,21 +1,54 @@
 package com.youssary.listaccount.ui.main
 
+import android.Manifest
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
 import com.youssary.listaccount.R
 import com.youssary.listaccount.model.ListRepository
+import com.youssary.listaccount.model.PermissionRequester
+import com.youssary.listaccount.ui.common.getViewModel
+import com.youssary.listaccount.ui.main.MainViewModel.UiModel
 import kotlinx.android.synthetic.main.activity_main.*
-import java.text.SimpleDateFormat
-import java.util.*
-
 
 class MainActivity : AppCompatActivity() {
+
     private lateinit var viewModel: MainViewModel
     private lateinit var adapter: MoviesAdapter
+    private val coarsePermissionRequester = PermissionRequester(
+        this,
+        Manifest.permission.INTERNET
+    )
 
- /*   private lateinit var fusedLocationClient: FusedLocationProviderClient
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        viewModel = getViewModel { MainViewModel(ListRepository(application)) }
+
+        adapter = MoviesAdapter(viewModel::onMovieClicked)
+        recycler.adapter = adapter
+
+        viewModel.model.observe(this, Observer(::updateUi))
+    }
+
+    private fun updateUi(model: UiModel) {
+
+        progress.visibility = if (model is UiModel.Loading) View.VISIBLE else View.GONE
+
+        when (model) {
+            is UiModel.Content -> adapter.list = model.list!!
+
+            UiModel.RequestLocationPermission -> coarsePermissionRequester.request {
+                viewModel.onCoarsePermissionRequested()
+            }
+        }
+    }
+}
+
+/*   private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     private val adapter = MoviesAdapter {
     }
@@ -68,27 +101,3 @@ class MainActivity : AppCompatActivity() {
         }
     }
 */
- override fun onCreate(savedInstanceState: Bundle?) {
-     super.onCreate(savedInstanceState)
-     setContentView(R.layout.activity_main)
-
-     viewModel = ViewModelProviders.of(
-         this,
-         MainViewModelFactory(ListRepository(this))
-     )[MainViewModel::class.java]
-
-     adapter = MoviesAdapter(viewModel::onMovieClicked)
-     recycler.adapter = adapter
-     //viewModel.model.observe(this, Observer(::updateUi))
-     viewModel.model.observe(this, androidx.lifecycle.Observer {  ::updateUi})
- }
-
-    private fun updateUi(model: MainViewModel.UiModel) {
-
-        progress.visibility = if (model is MainViewModel.UiModel.Loading) View.VISIBLE else View.GONE
-
-        when (model) {
-            is MainViewModel.UiModel.Content -> adapter.movies = model.movies
-        }
-    }
-}
