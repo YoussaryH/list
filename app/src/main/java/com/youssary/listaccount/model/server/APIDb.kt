@@ -1,4 +1,4 @@
-package com.youssary.listaccount.model
+package com.youssary.listaccount.model.server
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.OkHttpClient
@@ -6,7 +6,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-object AccountDb {
+object APIDb {
 
     private val okHttpClient = HttpLoggingInterceptor().run {
         level = HttpLoggingInterceptor.Level.BODY
@@ -20,6 +20,7 @@ object AccountDb {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
         .run {
-            create<AccountDbService>(AccountDbService::class.java)
+            create<AccountDbService>(
+                AccountDbService::class.java)
         }
 }

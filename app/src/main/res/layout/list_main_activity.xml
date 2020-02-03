@@ -6,21 +6,33 @@
     android:layout_height="wrap_content"
     card_view:cardUseCompatPadding="true">
 
-    <androidx.cardview.widget.CardView android:id="@+id/view_foreground"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/view_foreground"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:clickable="true"
         android:focusable="true"
         android:minHeight="@dimen/size_60"
         card_view:cardCornerRadius="@dimen/size_4">
 
-        <androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/llCard"
+        <LinearLayout
+            android:id="@+id/lyType"
+            android:layout_width="@dimen/text_size_10"
+            android:layout_height="match_parent"
+            android:background="@color/colorRed"
+            android:orientation="vertical" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/llCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <include layout="@layout/adapter_list_account_content"
+            <include
+                layout="@layout/adapter_list_account_content"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/size_8"
+                android:layout_marginLeft="@dimen/size_8" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
