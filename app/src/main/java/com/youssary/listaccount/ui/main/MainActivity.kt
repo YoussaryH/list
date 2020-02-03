@@ -6,33 +6,34 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.youssary.listaccount.R
-import com.youssary.listaccount.model.repository.ListRepository
+import com.youssary.listaccount.Util
 import com.youssary.listaccount.model.permision.PermissionRequester
+import com.youssary.listaccount.model.repository.ListRepository
 import com.youssary.listaccount.ui.common.app
 import com.youssary.listaccount.ui.common.getViewModel
 import com.youssary.listaccount.ui.main.MainViewModel.UiModel
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main_data.*
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: MainViewModel
     private lateinit var adapter: MoviesAdapter
-    private val coarsePermissionRequester =
-        PermissionRequester(
-            this,
+    private val coarsePermissionRequester = PermissionRequester(this,
             Manifest.permission.INTERNET
         )
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        viewModel = getViewModel { MainViewModel(
-            ListRepository(
-                app
+        viewModel = getViewModel {
+            MainViewModel(
+                ListRepository(
+                    app
+                )
             )
-        ) }
+        }
 
         adapter = MoviesAdapter(viewModel::onMovieClicked)
         recycler.adapter = adapter
@@ -45,65 +46,35 @@ class MainActivity : AppCompatActivity() {
         progress.visibility = if (model is UiModel.Loading) View.VISIBLE else View.GONE
 
         when (model) {
-            is UiModel.Content -> adapter.list = model.list
-
+            is UiModel.Content -> adapter.list = model.list.toMutableList()
             UiModel.RequestLocationPermission -> coarsePermissionRequester.request {
                 viewModel.onCoarsePermissionRequested()
             }
         }
+        LoadData(model)
     }
+
+
+    private fun LoadData(model: UiModel) {
+        when (model) {
+            is UiModel.DataMax -> {
+                data.visibility = View.VISIBLE
+                lyNodata.visibility = View.GONE
+
+                tvId.text = "ID: " + model.list.get(0).id.toString()
+                tvDate.text = "DATE: " + model.list.get(0).date?.let { Util.formatFecha(it) }
+                tvDescription.text = "DESCRIPTION: " + model.list.get(0).description.toString()!!
+                tvAmount.text = "AMOUNT: " + model.list.get(0).amount.toString()
+                tvFee.text = "FEE: " + model.list.get(0).fee.toString()
+                tvTotal.text =
+                    "TOTAL: " + (model.list.get(0).amount + model.list.get(0).fee).toString()
+                if (model.list.get(0).amount >= 0) tvTotal.setTextColor(resources.getColor(R.color.green))
+                else
+                    tvTotal.setTextColor(
+                        resources.getColor(R.color.red)
+                    )
+            }
+        }
+    }
+
 }
-
-/*   private lateinit var fusedLocationClient: FusedLocationProviderClient
-
-    private val adapter = MoviesAdapter {
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-
-        launch {
-            val listAmount = APIDb.service
-                .getItems()
-                .await()
-
-            adapter.listAccount = listAmount
-        }
-
-        recycler.adapter = adapter
-    }
-
-    private suspend fun requestCoarseLocationPermission(): Boolean =
-        suspendCancellableCoroutine { continuation ->
-            Dexter
-                .withActivity(this@MainActivity)
-                .withPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
-                .withListener(object : BasePermissionListener() {
-                    override fun onPermissionGranted(response: PermissionGrantedResponse?) {
-                        continuation.resume(true)
-                    }
-
-                    override fun onPermissionDenied(response: PermissionDeniedResponse?) {
-                        continuation.resume(false)
-                    }
-                }
-                ).check()
-        }
-        fun validarFecha(fecha: String): Boolean {
-        val date = fecha
-        val dateformat =
-            SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
-        val output = SimpleDateFormat("dd.MM.yyyy hh:mm")
-        var d: Date? = null
-        try {
-            d = dateformat.parse(date /*your date as String*/)
-            return true
-        } catch (e: Exception) {
-            e.printStackTrace()
-            return false
-        }
-    }
-*/

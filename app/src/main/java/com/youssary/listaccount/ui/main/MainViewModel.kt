@@ -21,7 +21,8 @@ class MainViewModel(private val mListRepository: ListRepository) : ViewModel(),
 
     sealed class UiModel {
         object Loading : UiModel()
-        class Content(val list: MutableList<ListDB>) : UiModel()
+        class DataMax(val list: MutableList<ListDB>) : UiModel()
+        class Content(val list: List<ListDB>) : UiModel()
         class Navigation(val movie: AccountDbResult) : UiModel()
         object RequestLocationPermission : UiModel()
     }
@@ -38,6 +39,7 @@ class MainViewModel(private val mListRepository: ListRepository) : ViewModel(),
         launch {
             _model.value = UiModel.Loading
             _model.value = UiModel.Content(mListRepository.findListRoom().toMutableList())
+            _model.value = UiModel.DataMax(mListRepository.findListRoomMax().toMutableList())
         }
     }
 

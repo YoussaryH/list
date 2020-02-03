@@ -4,6 +4,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.youssary.listaccount.R
+import com.youssary.listaccount.Util
 import com.youssary.listaccount.database.ListDB
 import com.youssary.listaccount.model.server.AccountDbResult
 import com.youssary.listaccount.ui.common.basicDiffUtil
@@ -35,7 +36,7 @@ class MoviesAdapter(private val listener: (AccountDbResult) -> Unit) :
         fun bind(dataResult: ListDB) {
 
             itemView.tvId.text = dataResult.id.toString()
-            itemView.tvDate.text = dataResult.date
+            itemView.tvDate.text = dataResult.date?.let { Util.formatFecha(it) }
             itemView.tvAmount.text = dataResult.amount.toString()
             itemView.tvFee.text = dataResult.fee.toString()
             itemView.tvDescription.text = dataResult.description
