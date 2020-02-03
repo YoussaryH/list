@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ListAccount</string>
+    <string name="app_name">List Data</string>
 
     <string name="api_key"></string>
 </resources>

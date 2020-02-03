@@ -5,7 +5,7 @@ import androidx.room.*
 @Dao
 interface ListDao {
 
-    @Query("SELECT * FROM ListDB")
+    @Query("SELECT * FROM ListDB ORDER BY id asc")
     fun getAll(): List<ListDB>
 
     @Query("SELECT * FROM ListDB WHERE id = :id")
@@ -24,8 +24,10 @@ interface ListDao {
     fun clearAll(): Int
 
 
+    @Query("SELECT * FROM ListDB WHERE date IN (SELECT MAX(date) FROM ListDB where isdateok)")
+    fun getDataMax(): List<ListDB>
 
-    @Query("SELECT * FROM ListDB as t1 INNER JOIN( SELECT codeId,MAX(date) as fecha FROM ListDB GROUP BY date)as t2 ON t1.date = t2.fecha AND t1.date = t2.fecha and isdateok ORDER BY t1.date desc")
+    @Query("SELECT * FROM ListDB WHERE date IN (SELECT MAX(date) FROM ListDB where isdateok GROUP BY id) ORDER BY date asc")
     fun getData(): List<ListDB>
 
 }

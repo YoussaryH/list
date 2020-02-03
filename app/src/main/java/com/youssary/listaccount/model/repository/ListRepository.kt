@@ -3,22 +3,18 @@ package com.youssary.listaccount.model.repository
 import android.Manifest
 import com.youssary.listaccount.App
 import com.youssary.listaccount.Util
-import com.youssary.listaccount.database.ListDB
-import com.youssary.listaccount.model.Utils
 import com.youssary.listaccount.model.permision.PermissionChecker
 import com.youssary.listaccount.model.server.APIDb
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.await
-import java.text.SimpleDateFormat
-import java.util.*
 import com.youssary.listaccount.database.ListDB as DBList
 import com.youssary.listaccount.model.server.AccountDbResult as ServerList
 
 class ListRepository(application: App) {
     private val db = application.db
 
-    suspend fun findListRoom(): List<ListDB> = withContext(Dispatchers.IO) {
+    suspend fun findListRoom(): List<DBList> = withContext(Dispatchers.IO) {
 
         with(db.ListDao()) {
             if (listCount() > 0) {
@@ -26,19 +22,26 @@ class ListRepository(application: App) {
             }
             if (listCount() <= 0) {
 
-                val list = APIDb.service
+                var list = APIDb.service
                     .getItems()
                     .await()
 
+                if (list.isNullOrEmpty()) list = emptyList<ServerList>().toMutableList()
                 list.forEach {
                     var isDateOK = Util.validarFecha(it.date.toString())
                     it.isdateok = isDateOK
-                    it.date = Util.formatFecha(it.date!!)
-                    it.id = 3371
+                    if (it.description.isNullOrBlank()) it.description = ""
                 }
                 insertList(list.map(ServerList::convertToDbMovie))
             }
             getData()
+        }
+    }
+
+    suspend fun findListRoomMax(): List<DBList> = withContext(Dispatchers.IO) {
+
+        with(db.ListDao()) {
+            getDataMax()
         }
     }
 
@@ -49,6 +52,8 @@ class ListRepository(application: App) {
     suspend fun update(list: DBList) = withContext(Dispatchers.IO) {
         db.ListDao().updateList(list)
     }
+    suspend fun isEmpty(): Boolean =
+        withContext(Dispatchers.IO) { db.ListDao().listCount() <= 0 }
 
     private val coarsePermissionChecker =
         PermissionChecker(
