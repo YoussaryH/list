@@ -1,5 +1,8 @@
 package com.youssary.listaccount
 
+import com.youssary.listaccount.support.EFormat
+import com.youssary.listaccount.support.EFormatData
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -33,4 +36,25 @@ object Util {
         }
         return d.toString()
     }
+    fun getDate(it: String): String? {
+        val dateFormat =
+            SimpleDateFormat(EFormat.DATE_HOUR_SCREEN.value(), Locale.getDefault())
+        val date = Date()
+        return dateFormat.format(date)
+    }
+
+    fun formatearNumeroDecimal2Decimales(
+        numero: Double,
+        separadorMiles: Boolean
+    ): String? {
+        val formato =
+            DecimalFormat.getInstance(Locale.getDefault()) as DecimalFormat
+        if (separadorMiles) {
+            formato.applyPattern(EFormatData.FMT_NUMERO_NORMALIZADO_TRES_DECIMALES_SEPARADOR_MILES.value())
+        } else {
+            formato.applyPattern(EFormatData.FMT_NUMERO_NORMALIZADO_TRES_DECIMALES_SEPARADOR_MILES.value())
+        }
+        return formato.format(numero)
+    }
+
 }

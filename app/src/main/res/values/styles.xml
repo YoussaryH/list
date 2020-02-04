@@ -27,6 +27,7 @@
 
     <style name="TextStyle.Heading" parent="TextStyle">
         <item name="android:textSize">@dimen/text_size_14</item>
+        <item name="android:layout_gravity">center</item>
         <item name="android:textStyle">bold</item>
     </style>
 
