@@ -7,6 +7,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.youssary.listaccount.R
 import com.youssary.listaccount.Util
+import com.youssary.listaccount.Util.formatearNumeroDecimal2Decimales
+import com.youssary.listaccount.Util.getDate
+import com.youssary.listaccount.database.ListDB
 import com.youssary.listaccount.model.permision.PermissionRequester
 import com.youssary.listaccount.model.repository.ListRepository
 import com.youssary.listaccount.ui.common.app
@@ -15,13 +18,15 @@ import com.youssary.listaccount.ui.module.main.MainViewModel.UiModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main_data.*
 
+@Suppress("DEPRECATION")
 class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: MainViewModel
     private lateinit var adapter: MoviesAdapter
-    private val coarsePermissionRequester = PermissionRequester(this,
-            Manifest.permission.INTERNET
-        )
+    private val coarsePermissionRequester = PermissionRequester(
+        this,
+        Manifest.permission.INTERNET
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,21 +65,34 @@ class MainActivity : AppCompatActivity() {
             is UiModel.DataMax -> {
                 data.visibility = View.VISIBLE
                 lyNodata.visibility = View.GONE
+                var listResult = model.list.get(0)
+                showDatMax(listResult)
 
-                tvId.text = model.list.get(0).id.toString()
-                tvDate.text =  model.list.get(0).date?.let { Util.formatFecha(it) }
-                tvDescription.text = model.list.get(0).description.toString()
-                tvAmount.text = model.list.get(0).amount.toString()
-                tvFee.text = model.list.get(0).fee.toString()
-                tvTotal.text =
-                    (model.list.get(0).amount + model.list.get(0).fee).toString()
-                if (model.list.get(0).amount >= 0) tvTotal.setTextColor(resources.getColor(R.color.green))
-                else
-                    tvTotal.setTextColor(
-                        resources.getColor(R.color.red)
-                    )
             }
         }
+
+
+    }
+
+    fun showDatMax(listResult: ListDB) {
+        tvId.text = listResult.id.toString()
+        tvDate.text = listResult.date?.let { getDate(it) }
+        tvDescription.text = listResult.description.toString()
+        tvAmount.text =
+            listResult.amount.let { formatearNumeroDecimal2Decimales(it, true) }
+        tvFee.text =
+            listResult.fee.let { Util.formatearNumeroDecimal2Decimales(it, true) }
+        tvTotal.text = (listResult.amount + listResult.fee).let {
+            Util.formatearNumeroDecimal2Decimales(
+                it,
+                true
+            )
+        }
+        if (listResult.amount >= 0) tvTotal.setTextColor(resources.getColor(R.color.green))
+        else
+            tvTotal.setTextColor(
+                resources.getColor(R.color.red)
+            )
     }
 
 }

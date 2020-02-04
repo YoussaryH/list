@@ -1,0 +1,17 @@
+package com.youssary.listaccount.support
+
+enum class EFormatData(private val value: String) {
+    FMT_NUMERO_NORMALIZADO("####0000"),
+    FMT_NUMERO_NORMALIZADO_CERO_DECIMAL("######0"),
+    FMT_NUMERO_NORMALIZADO_UN_DECIMAL("######0.0"),
+    FMT_NUMERO_NORMALIZADO_UN_DECIMAL_DISTINTO_CERO("######0.#"),
+    FMT_NUMERO_NORMALIZADO_DOS_DECIMALES("#####0.00"),
+    FMT_NUMERO_NORMALIZADO_DOS_DECIMALES_SEPARADOR_MILES("###,###,##0.00"),
+    FMT_NUMERO_NORMALIZADO_TRES_DECIMALES("####0.000"),
+    FMT_NUMERO_NORMALIZADO_TRES_DECIMALES_SEPARADOR_MILES("###,###,##0.000  ¤"),
+    FMT_NUMERO_NORMALIZADO_DOS_DECIMALES_SEPARADOR_MILES_COMAS("###,###.###");
+fun value(): String {
+    return value
+}
+
+}

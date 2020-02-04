@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.youssary.listaccount.R
 import com.youssary.listaccount.Util
+import com.youssary.listaccount.Util.getDate
 import com.youssary.listaccount.database.ListDB
 import com.youssary.listaccount.model.server.AccountDbResult
 import com.youssary.listaccount.ui.common.basicDiffUtil
@@ -34,13 +35,14 @@ class MoviesAdapter(private val listener: (AccountDbResult) -> Unit) :
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bind(dataResult: ListDB) {
-
+            var mTotal = dataResult.amount + dataResult.fee;
             itemView.tvId.text = dataResult.id.toString()
-            itemView.tvDate.text = dataResult.date?.let { Util.formatFecha(it) }
-            itemView.tvAmount.text = dataResult.amount.toString()
-            itemView.tvFee.text = dataResult.fee.toString()
+            itemView.tvDate.text = dataResult.date?.let { getDate(it) }
+            itemView.tvAmount.text = dataResult.amount?.let { Util.formatearNumeroDecimal2Decimales(it, true) }
+            itemView.tvFee.text =
+                dataResult.fee?.let { Util.formatearNumeroDecimal2Decimales(it, true) }
             itemView.tvDescription.text = dataResult.description
-            itemView.tvTotal.text = (dataResult.amount + dataResult.fee).toString()
+            itemView.tvTotal.text = mTotal?.let { Util.formatearNumeroDecimal2Decimales(it, true) }
             if (dataResult.amount >= 0) {
                 itemView.lyType.setBackgroundResource(R.color.green)
             } else {
