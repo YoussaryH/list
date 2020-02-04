@@ -3,13 +3,9 @@ package com.youssary.listaccount.main
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.nhaarman.mockitokotlin2.verify
-import com.nhaarman.mockitokotlin2.whenever
-import com.youssary.listaccount.database.ListDB
 import com.youssary.listaccount.model.repository.ListRepository
-import com.youssary.listaccount.ui.main.MainViewModel
-import com.youssary.listaccount.ui.main.MainViewModel.UiModel
-import com.youssary.listaccount.ui.main.MainViewModel.UiModel.Content
-import kotlinx.coroutines.runBlocking
+import com.youssary.listaccount.ui.module.main.MainViewModel
+import com.youssary.listaccount.ui.module.main.MainViewModel.UiModel
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

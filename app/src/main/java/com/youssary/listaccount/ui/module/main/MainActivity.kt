@@ -1,4 +1,4 @@
-package com.youssary.listaccount.ui.main
+package com.youssary.listaccount.ui.module.main
 
 import android.Manifest
 import android.os.Bundle
@@ -11,7 +11,7 @@ import com.youssary.listaccount.model.permision.PermissionRequester
 import com.youssary.listaccount.model.repository.ListRepository
 import com.youssary.listaccount.ui.common.app
 import com.youssary.listaccount.ui.common.getViewModel
-import com.youssary.listaccount.ui.main.MainViewModel.UiModel
+import com.youssary.listaccount.ui.module.main.MainViewModel.UiModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main_data.*
 
@@ -61,13 +61,13 @@ class MainActivity : AppCompatActivity() {
                 data.visibility = View.VISIBLE
                 lyNodata.visibility = View.GONE
 
-                tvId.text = "ID: " + model.list.get(0).id.toString()
-                tvDate.text = "DATE: " + model.list.get(0).date?.let { Util.formatFecha(it) }
-                tvDescription.text = "DESCRIPTION: " + model.list.get(0).description.toString()!!
-                tvAmount.text = "AMOUNT: " + model.list.get(0).amount.toString()
-                tvFee.text = "FEE: " + model.list.get(0).fee.toString()
+                tvId.text = model.list.get(0).id.toString()
+                tvDate.text =  model.list.get(0).date?.let { Util.formatFecha(it) }
+                tvDescription.text = model.list.get(0).description.toString()
+                tvAmount.text = model.list.get(0).amount.toString()
+                tvFee.text = model.list.get(0).fee.toString()
                 tvTotal.text =
-                    "TOTAL: " + (model.list.get(0).amount + model.list.get(0).fee).toString()
+                    (model.list.get(0).amount + model.list.get(0).fee).toString()
                 if (model.list.get(0).amount >= 0) tvTotal.setTextColor(resources.getColor(R.color.green))
                 else
                     tvTotal.setTextColor(

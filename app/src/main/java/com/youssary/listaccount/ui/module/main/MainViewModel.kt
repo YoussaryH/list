@@ -1,4 +1,4 @@
-package com.youssary.listaccount.ui.main
+package com.youssary.listaccount.ui.module.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
