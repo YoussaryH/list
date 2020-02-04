@@ -13,8 +13,8 @@ import com.youssary.listaccount.ui.common.inflate
 import kotlinx.android.synthetic.main.adapter_list_account_content.view.*
 import kotlinx.android.synthetic.main.list_main_activity.view.*
 
-class MoviesAdapter(private val listener: (AccountDbResult) -> Unit) :
-    RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
+class ListAdapter(private val listener: (AccountDbResult) -> Unit) :
+    RecyclerView.Adapter<ListAdapter.ViewHolder>() {
 
     var list: List<ListDB> by basicDiffUtil(
         emptyList(),
