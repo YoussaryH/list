@@ -5,6 +5,7 @@ import com.youssary.listaccount.support.EFormatData
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.Exception as Exception1
 
 object Util {
     fun validarFecha(fecha: String): Boolean {
