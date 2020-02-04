@@ -38,11 +38,11 @@ class MoviesAdapter(private val listener: (AccountDbResult) -> Unit) :
             var mTotal = dataResult.amount + dataResult.fee;
             itemView.tvId.text = dataResult.id.toString()
             itemView.tvDate.text = dataResult.date?.let { getDate(it) }
-            itemView.tvAmount.text = dataResult.amount?.let { Util.formatearNumeroDecimal2Decimales(it, true) }
+            itemView.tvAmount.text = dataResult.amount.let { Util.formatearNumeroDecimal2Decimales(it, true) }
             itemView.tvFee.text =
-                dataResult.fee?.let { Util.formatearNumeroDecimal2Decimales(it, true) }
+                dataResult.fee.let { Util.formatearNumeroDecimal2Decimales(it, true) }
             itemView.tvDescription.text = dataResult.description
-            itemView.tvTotal.text = mTotal?.let { Util.formatearNumeroDecimal2Decimales(it, true) }
+            itemView.tvTotal.text = mTotal.let { Util.formatearNumeroDecimal2Decimales(it, true) }
             if (dataResult.amount >= 0) {
                 itemView.lyType.setBackgroundResource(R.color.green)
             } else {
