@@ -1,4 +1,4 @@
-package com.youssary.listaccount.ui.main
+package com.youssary.listaccount.ui.module.main
 
 import android.view.View
 import android.view.ViewGroup

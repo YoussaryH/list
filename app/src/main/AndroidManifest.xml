@@ -16,8 +16,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.main.MainActivity"
-            android:configChanges="orientation|screenSize">
+        <activity
+            android:name="com.youssary.listaccount.ui.module.main.MainActivity"
+            android:configChanges="orientation|screenSize" />
+        <activity android:name=".ui.module.splash.SplashActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -11,7 +11,7 @@ public final class Utils {
         val output = SimpleDateFormat("dd.MM.yyyy hh:mm")
         var d: Date? = null
         try {
-            d = dateformat.parse(date /*your date as String*/)
+            d = dateformat.parse(date)
             return true
         } catch (e: Exception) {
             e.printStackTrace()

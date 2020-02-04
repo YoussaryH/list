@@ -6,6 +6,6 @@
     app:startDestination="@id/mainFragment">
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.youssary.listaccount.ui.main.MainFragment"
+        android:name="com.youssary.listaccount.ui.module.main.MainFragment"
         android:label="fragment_main" />
 </navigation>
