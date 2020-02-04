@@ -1,15 +1,12 @@
 package com.youssary.listaccount.repository
 
 
-import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
-import com.youssary.listaccount.App
 import com.youssary.listaccount.database.ListDB
 import com.youssary.listaccount.model.repository.ListRepository
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
-import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
@@ -22,15 +19,15 @@ class ListRepositoryTes() {
     lateinit var listRepository: ListRepository
 
     @Test
-    fun `getPopularMovies gets from local data source first`() {
+    fun `getList gets from local data source first`() {
         runBlocking {
 
-            val localMovies = listOf(mockedList.copy(1))
-            whenever(listRepository.findListRoom()).thenReturn(localMovies)
+            val localList = listOf(mockedList.copy(1))
+            whenever(listRepository.findListRoom()).thenReturn(localList)
 
             val result = listRepository.findListRoom()
 
-            assertEquals(localMovies, result)
+            assertEquals(localList, result)
         }
     }
 

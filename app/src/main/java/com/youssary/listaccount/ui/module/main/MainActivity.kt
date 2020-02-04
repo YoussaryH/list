@@ -22,7 +22,7 @@ import kotlinx.android.synthetic.main.activity_main_data.*
 class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: MainViewModel
-    private lateinit var adapter: MoviesAdapter
+    private lateinit var adapter: ListAdapter
     private val coarsePermissionRequester = PermissionRequester(
         this,
         Manifest.permission.INTERNET
@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
             )
         }
 
-        adapter = MoviesAdapter(viewModel::onMovieClicked)
+        adapter = ListAdapter(viewModel::onMovieClicked)
         recycler.adapter = adapter
 
         viewModel.model.observe(this, Observer(::updateUi))
