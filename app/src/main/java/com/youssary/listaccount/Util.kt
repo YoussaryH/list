@@ -5,7 +5,6 @@ import com.youssary.listaccount.support.EFormatData
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.Exception as Exception1
 
 object Util {
     fun validarFecha(fecha: String): Boolean {
@@ -26,7 +25,7 @@ object Util {
     fun formatFecha(fecha: String): String {
         val date = fecha
         val dateformat =
-            SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+            SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX",Locale.getDefault())
         val output = SimpleDateFormat("dd/MM/yyyy hh:mm")
         var d: Date? = null
         try {
@@ -37,7 +36,7 @@ object Util {
         }
         return d.toString()
     }
-    fun getDate(it: String): String? {
+    fun getDate(it: String?): String? {
         val dateFormat =
             SimpleDateFormat(EFormat.DATE_HOUR_SCREEN.value(), Locale.getDefault())
         val date = Date()

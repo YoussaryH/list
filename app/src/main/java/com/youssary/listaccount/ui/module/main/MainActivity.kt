@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.youssary.listaccount.R
 import com.youssary.listaccount.Util
+import com.youssary.listaccount.Util.formatFecha
 import com.youssary.listaccount.Util.formatearNumeroDecimal2Decimales
 import com.youssary.listaccount.Util.getDate
 import com.youssary.listaccount.database.ListDB
@@ -76,7 +77,7 @@ class MainActivity : AppCompatActivity() {
 
     fun showDatMax(listResult: ListDB) {
         tvId.text = listResult.id.toString()
-        tvDate.text = listResult.date?.let { getDate(it) }
+        tvDate.text = listResult.date?.let { formatFecha(it) }
         tvDescription.text = listResult.description.toString()
         tvAmount.text =
             listResult.amount.let { formatearNumeroDecimal2Decimales(it, true) }
