@@ -32,6 +32,7 @@ allprojects {
 
     ext {
 
+
         androidLibs = [
                 appcompat           : 'androidx.appcompat:appcompat:1.1.0',
                 recyclerview        : 'androidx.recyclerview:recyclerview:1.0.0',
@@ -45,7 +46,8 @@ allprojects {
                 dexter              : 'com.karumi:dexter:5.0.0',
                 navigation          : 'androidx.navigation:navigation-fragment-ktx:2.2.0',
                 navigationui        : 'androidx.navigation:navigation-ui-ktx:2.2.0',
-                animation           : 'com.android.support:support-dynamic-animation:*'
+                animation           : "com.android.support:support-dynamic-animation:$kotlin_version"
+
         ]
 
         androidKaptLibs = [

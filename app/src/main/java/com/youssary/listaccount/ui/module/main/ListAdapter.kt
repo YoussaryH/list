@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.youssary.listaccount.R
 import com.youssary.listaccount.Util
+import com.youssary.listaccount.Util.formatFecha
 import com.youssary.listaccount.Util.getDate
 import com.youssary.listaccount.database.ListDB
 import com.youssary.listaccount.model.server.AccountDbResult
@@ -37,7 +38,7 @@ class ListAdapter(private val listener: (AccountDbResult) -> Unit) :
         fun bind(dataResult: ListDB) {
             var mTotal = dataResult.amount + dataResult.fee;
             itemView.tvId.text = dataResult.id.toString()
-            itemView.tvDate.text = dataResult.date?.let { getDate(it) }
+            itemView.tvDate.text = dataResult.date?.let { formatFecha(it) }
             itemView.tvAmount.text = dataResult.amount.let { Util.formatearNumeroDecimal2Decimales(it, true) }
             itemView.tvFee.text =
                 dataResult.fee.let { Util.formatearNumeroDecimal2Decimales(it, true) }
